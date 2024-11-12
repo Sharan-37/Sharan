@@ -1,0 +1,89 @@
+Record your own Audio, play it back, and plot it using MATLAB
+
+clear all;
+
+close all;
+
+clc;
+
+
+
+% Create an audiorecorder object with sample rate 8000 Hz, 8-bit depth, 1 channel (mono)
+
+a = audiorecorder(8000, 8, 1);
+
+% Prompt user for the recording time
+
+t = input('Enter the time for which you want to record: ');
+
+
+
+% Start recording
+
+disp('Start recording...');
+
+recordblocking(a, t); % Record audio for 't' seconds
+
+disp('End of recording.');
+
+
+
+% Play the recorded audio
+
+play(a);
+
+% Get the audio data
+
+y = getaudiodata(a);
+
+
+
+% Plot the recorded audio data
+
+figure;
+
+plot(y);
+
+title('Recorded Audio Signal');
+
+xlabel('Sample Number');
+
+ylabel('Amplitude');
+
+grid on;
+
+
+
+% Save the audio to a file
+
+audiowrite('mysound.wav', y, 8000);
+
+
+
+% Read the saved audio file
+
+[y, fs] = audioread('mysound.wav');
+
+% Play the saved audio
+
+sound(y, fs);
+
+% Time vector for plotting
+
+t = (0:length(y)-1) / fs;
+
+
+
+% Plot the audio data with time axis
+
+figure;
+
+plot(t, y);
+
+title('Audio Signal from File');
+
+xlabel('Time (s)');
+
+ylabel('Amplitude');
+
+grid on;
